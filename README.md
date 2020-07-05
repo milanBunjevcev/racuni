@@ -1,6 +1,5 @@
-# racuni
 
-##    JWD43Modul3Test2 (projekat rađen na završnom testu)
-      Korišćenjem radnih okvira Spring Boot, AngularJS i Bootstrap implementirana je Web aplikacija za
-      platni promet banke. Aplikacija obezbeđuje rad sa entitetima: banka, tip računa i račun. Implementiran
-      je i prenos sredstava sa računa na račun.
+
+### The application provides work with entities: bank, account type and account. It supports transfer of funds from account to account
+
+Project implemented on the final course test "Java Web Development" (FTN Informatika). Application is based on SpringBoot, REST API, AngularJS and Bootstrap. 
