@@ -29,11 +29,13 @@ import jwd.test.web.dto.TipRacunaDTO;
 @RestController
 @RequestMapping(value = "/api/racuni")
 public class ApiRacunController {
+	
 	@Autowired
 	private RacunService racunService;
 
 	@Autowired
 	private RacunToRacunDTO toDTO;
+	
 	@Autowired
 	private RacunDTOToRacun toModel1;
 
@@ -41,22 +43,19 @@ public class ApiRacunController {
 	private TipRacunToTipRacunaDTO toModel3DTO;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<RacunDTO>> get(@RequestParam(required = false) String jmbg,
+	public ResponseEntity<List<RacunDTO>> get(
+			@RequestParam(required = false) String jmbg,
 			@RequestParam(required = false) Long bankaId,
 			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
 			@RequestParam(value = "rowsPerPage", defaultValue = "5") int rowsPerPage) {
-
 		Page<Racun> linijePage = null;
-
 		if (jmbg != null || bankaId != null) {
 			linijePage = racunService.search(jmbg, bankaId, pageNum, rowsPerPage);
 		} else {
 			linijePage = racunService.findAll(pageNum, rowsPerPage);
 		}
-
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("totalPages", Integer.toString(linijePage.getTotalPages()));
-
 		return new ResponseEntity<>(toDTO.convert(linijePage.getContent()), headers, HttpStatus.OK);
 	}
 
@@ -66,7 +65,6 @@ public class ApiRacunController {
 		if (racun == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<>(toDTO.convert(racun), HttpStatus.OK);
 	}
 
@@ -78,7 +76,6 @@ public class ApiRacunController {
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 		}
-
 		Racun deleted = racunService.delete(id);
 		if (deleted == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -102,15 +99,13 @@ public class ApiRacunController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/prenos")
-	public ResponseEntity<Void> interact(@RequestParam String brojRacuna1, @RequestParam String brojRacuna2,
-			@RequestParam double iznos) {
-
+	public ResponseEntity<Void> interact(@RequestParam String brojRacuna1, 
+					     @RequestParam String brojRacuna2,
+					     @RequestParam double iznos) {
 		boolean izvrsena = racunService.interact(brojRacuna1, brojRacuna2, iznos);
-
 		if (izvrsena) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
-
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
